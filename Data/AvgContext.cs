@@ -20,6 +20,7 @@ namespace AvgApi.Data
         public DbSet<TipoInvestimento> TipoInvestimentos { get; set; }
         public DbSet<TipoReceita> TipoReceitas { get; set; }
         public DbSet<ResumoReceitaDespesa> ResumoReceitaDespesas { get; set; }
+        public DbSet<Professor>  Professores { get; set; }
 
 
 
@@ -64,6 +65,8 @@ namespace AvgApi.Data
             .HasKey(AD => new { AD.Id });
             modelBuilder.Entity<ResumoReceitaDespesa>()
            .HasKey(AD => new { AD.Id });
+            modelBuilder.Entity<Professor>()
+           .HasKey(AD => new { AD.Id});
 
             modelBuilder.Entity<CategoriaModel>().HasData(
             new CategoriaModel { Id = 1, DescCategoria = "Celular"},
@@ -76,7 +79,11 @@ namespace AvgApi.Data
             new ProdutoModel { Id = 2, Marca = "Apple", Modelo = "Iphone X", Cor = "Branco", Estoque = 4, Preco = 3100.00M, CategoriaModelId = 1 },
             new ProdutoModel { Id = 3, Marca = "Apple", Modelo = "Iphone 11", Cor = "Preto", Estoque = 1, Preco = 4800.00M, CategoriaModelId = 1 });
 
-
+            modelBuilder.Entity<Professor>().HasData(
+                new Professor { Id = 1, Especialidade = "Java", Nome = "Pietra Rafaela Peixoto", Telefone = "(31) 2881-5021"},
+                new Professor { Id = 2, Especialidade = "Sistemas Operacionais", Nome = "Alessandra Elisa Luzia da Silva", Telefone = "(96) 2778-0600"},
+                new Professor { Id = 3, Especialidade = "C#", Nome = "Levi Nathan Moura",Telefone = "(73) 3722-7286" }
+             );
 
             //modelBuilder.Entity<ResumoReceitaDespesa>().HasData(
             //new ResumoReceitaDespesa { Id = 1, Descricao = "Ações Brasil", ResumoReceitaDespesaId = 1 },

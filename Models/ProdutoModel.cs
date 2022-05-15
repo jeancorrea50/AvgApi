@@ -30,6 +30,5 @@ namespace AvgApi.Models
             public DateTime? DataCadastroProduto { get; } = DateTime.Now;
             public int CategoriaModelId { get; set; }
             public CategoriaModel CategoriaModels { get; set; }
-        public int ProdutoId { get; internal set; }
     }
 }
