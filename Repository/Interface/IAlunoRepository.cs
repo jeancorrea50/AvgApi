@@ -1,6 +1,12 @@
-﻿namespace AvgApi.Repository.Interface
+﻿using AvgApi.Models;
+using System.Collections.Generic;
+
+namespace AvgApi.Repository.Interface
 {
-    public class IAlunoRepository
+    public interface IAlunoRepository
     {
+        IEnumerable<Aluno> Alunos { get; }
+
+        Aluno GetAluno(int id);
     }
 }
