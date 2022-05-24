@@ -21,5 +21,7 @@ namespace AvgApi.Repository.Interface
 
         public IEnumerable<Aluno> ConsultaPalavraChave3String(string nome, string cpf, string sobrenome);
 
+        public IEnumerable<Aluno> ObterPorPalavraChaveIntStringData(string palavraChave);
+
     }
 }

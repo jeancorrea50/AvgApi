@@ -24,6 +24,8 @@ namespace AvgApi.Models
         [DisplayFormat(DataFormatString = "{0: dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DataNascimento { get; set; } = DateTime.Now;
         public string Cpf { get; set; }
+        public DateTime? DataExclusao { get; set; }
+
 
         public IEnumerable<AlunoDisciplina> AlunosDisciplinas { get; set; }
 

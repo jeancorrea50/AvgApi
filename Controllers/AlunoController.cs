@@ -77,6 +77,23 @@ namespace AvgApi.Controllers
 
         }
 
+        [HttpGet("ObterPorPalavraChaveTESTE/{palavraChave}")]
+        public ActionResult ObterPorPalavraChaveTESTE(string palavraChave)
+        {
+
+            try
+            {
+                var result = _AlunoRepository.ObterPorPalavraChaveIntStringData(palavraChave);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+
+        }
+
         [HttpGet("ByDisciplina/{disciplinaId}")]
         public async Task<IActionResult> GetByDisciplinaId(int disciplinaId)
         {

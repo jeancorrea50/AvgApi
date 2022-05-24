@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -128,17 +129,71 @@ namespace AvgApi.Repository.Interface
                         aluno.Sobrenome == sobrenome ||
                         aluno.Cpf == cpf
                         select aluno;
-                                       
-                                       // Com Contais == busca tudo que tem pela palavra chave digitada
-                        //where
-                        //aluno.Nome.Contains(nome) ||
-                        //aluno.Sobrenome.Contains(sobrenome) ||
-                        //aluno.Cpf.Contains(cpf)
+                                
 
             return query.ToList();
         }
 
+        public IEnumerable<Aluno> ObterPorPalavraChaveIntStringData(string palavraChave)
+        {
+            int numero;
+            DateTime data;
 
+            bool dataValida = DateTime.TryParseExact(palavraChave, "DDMMYYYY", CultureInfo.InvariantCulture, DateTimeStyles.None, out data);
+
+            if (int.TryParse(palavraChave, out numero))
+            {
+                int id = numero;
+
+                var consultaInt = ConsultaInt(id);
+
+                return consultaInt;
+            }
+
+            if (dataValida == true)
+            {
+                var consultaData = ConsultaDateTime(data);
+
+                return consultaData;
+
+            }
+
+            var consultaString = ConsultaString(palavraChave);
+
+            return consultaString;
+        }
+        public IEnumerable<Aluno> ConsultaInt(int idAluno)
+        {
+            // tras todos os resultados de strings 
+            var query = from aluno in _context.Alunos
+                        where
+                        aluno.Id == idAluno
+                        select aluno;
+
+            return query.ToList();
+        }
+        public IEnumerable<Aluno> ConsultaDateTime(DateTime dateTime)
+        {
+            // tras todos os resultados de strings 
+            var query = from aluno in _context.Alunos
+                        where
+                        aluno.DataAgora == dateTime
+                        select aluno;
+
+            return query.ToList();
+        }
+        public IEnumerable<Aluno> ConsultaString(string palavraChave)
+        {
+            // tras todos os resultados de strings 
+            var query = from aluno in _context.Alunos
+                        where
+                        aluno.Nome == palavraChave ||
+                        aluno.Sobrenome == palavraChave ||
+                        aluno.Cpf == palavraChave
+                        select aluno;
+
+            return query.ToList();
+        }
 
         //public IEnumerable<Aluno> ObterPorPalavraChave(string nome, string cpf, string email)
         //{
