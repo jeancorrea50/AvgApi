@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AvgApi.Migrations
 {
     [DbContext(typeof(AvgContext))]
-    [Migration("20220515144254_add-professor")]
-    partial class addprofessor
+    [Migration("20220524141144_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,58 @@ namespace AvgApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AvgApi.Models.Aluno", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Cpf")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DataAgora")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sobrenome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Aluno");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.AlunoDisciplina", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AlunoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DisciplinaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("DisciplinaId");
+
+                    b.ToTable("AlunoDisciplina");
+                });
 
             modelBuilder.Entity("AvgApi.Models.CategoriaModel", b =>
                 {
@@ -34,28 +86,6 @@ namespace AvgApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categoria");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DescCategoria = "Celular"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DescCategoria = "Televisão"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DescCategoria = "Notebook"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            DescCategoria = "Pc Gamer"
-                        });
                 });
 
             modelBuilder.Entity("AvgApi.Models.Despesa", b =>
@@ -100,6 +130,26 @@ namespace AvgApi.Migrations
                     b.HasIndex("TipoDespesaId");
 
                     b.ToTable("Despesa");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.Disciplina", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfessorId");
+
+                    b.ToTable("Disciplina");
                 });
 
             modelBuilder.Entity("AvgApi.Models.Investimento", b =>
@@ -182,6 +232,75 @@ namespace AvgApi.Migrations
                     b.ToTable("PessoaFisica");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.PessoaJuridica", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Bairro")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cep")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cnpj")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Complemento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DataAlteracao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DataInclusao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InscEstadualIsenta")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("InscMunicipalIsenta")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("InscricaoEstadual")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InscricaoMunicipal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Logradouro")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Municipio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomeFantasia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pais")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RazaoSocial")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Uf")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PessoaJuridica");
+                });
+
             modelBuilder.Entity("AvgApi.Models.ProdutoModel", b =>
                 {
                     b.Property<int>("Id")
@@ -217,8 +336,7 @@ namespace AvgApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Preco")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("QuantidadeProduto")
                         .HasColumnType("int");
@@ -227,8 +345,7 @@ namespace AvgApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ValorUniProduto")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("VoltagemProduto")
                         .HasColumnType("nvarchar(max)");
@@ -238,44 +355,6 @@ namespace AvgApi.Migrations
                     b.HasIndex("CategoriaModelId");
 
                     b.ToTable("Produto");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoriaModelId = 1,
-                            Cor = "Vermelho",
-                            Estoque = 7,
-                            Marca = "Apple",
-                            Modelo = "Iphone 8",
-                            Preco = 2600.00m,
-                            QuantidadeProduto = 0,
-                            ValorUniProduto = 0m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoriaModelId = 1,
-                            Cor = "Branco",
-                            Estoque = 4,
-                            Marca = "Apple",
-                            Modelo = "Iphone X",
-                            Preco = 3100.00m,
-                            QuantidadeProduto = 0,
-                            ValorUniProduto = 0m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoriaModelId = 1,
-                            Cor = "Preto",
-                            Estoque = 1,
-                            Marca = "Apple",
-                            Modelo = "Iphone 11",
-                            Preco = 4800.00m,
-                            QuantidadeProduto = 0,
-                            ValorUniProduto = 0m
-                        });
                 });
 
             modelBuilder.Entity("AvgApi.Models.Professor", b =>
@@ -285,41 +364,12 @@ namespace AvgApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Especialidade")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Professor");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Especialidade = "Java",
-                            Nome = "Pietra Rafaela Peixoto",
-                            Telefone = "(31) 2881-5021"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Especialidade = "Sistemas Operacionais",
-                            Nome = "Alessandra Elisa Luzia da Silva",
-                            Telefone = "(96) 2778-0600"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Especialidade = "C#",
-                            Nome = "Levi Nathan Moura",
-                            Telefone = "(73) 3722-7286"
-                        });
                 });
 
             modelBuilder.Entity("AvgApi.Models.Receita", b =>
@@ -486,6 +536,25 @@ namespace AvgApi.Migrations
                     b.ToTable("TipoReceita");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.AlunoDisciplina", b =>
+                {
+                    b.HasOne("AvgApi.Models.Aluno", "Aluno")
+                        .WithMany("AlunosDisciplinas")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AvgApi.Models.Disciplina", "Disciplina")
+                        .WithMany("AlunosDisciplinas")
+                        .HasForeignKey("DisciplinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Disciplina");
+                });
+
             modelBuilder.Entity("AvgApi.Models.Despesa", b =>
                 {
                     b.HasOne("AvgApi.Models.TipoDespesa", "TipoDespesa")
@@ -495,6 +564,17 @@ namespace AvgApi.Migrations
                         .IsRequired();
 
                     b.Navigation("TipoDespesa");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.Disciplina", b =>
+                {
+                    b.HasOne("AvgApi.Models.Professor", "Professor")
+                        .WithMany("Disciplinas")
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Professor");
                 });
 
             modelBuilder.Entity("AvgApi.Models.Investimento", b =>
@@ -555,6 +635,11 @@ namespace AvgApi.Migrations
                     b.Navigation("Receita");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.Aluno", b =>
+                {
+                    b.Navigation("AlunosDisciplinas");
+                });
+
             modelBuilder.Entity("AvgApi.Models.CategoriaModel", b =>
                 {
                     b.Navigation("ProdutoModels");
@@ -565,9 +650,19 @@ namespace AvgApi.Migrations
                     b.Navigation("ResumoReceitaDespesas");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.Disciplina", b =>
+                {
+                    b.Navigation("AlunosDisciplinas");
+                });
+
             modelBuilder.Entity("AvgApi.Models.Investimento", b =>
                 {
                     b.Navigation("ResumoReceitaDespesas");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.Professor", b =>
+                {
+                    b.Navigation("Disciplinas");
                 });
 
             modelBuilder.Entity("AvgApi.Models.Receita", b =>

@@ -1,80 +1,170 @@
 ﻿using AvgApi.Data;
 using AvgApi.Models;
+using AvgApi.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 
 namespace AvgApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     [ApiController]
     public class AlunoController : ControllerBase
     {
         private readonly AvgContext _context;
-
-        public AlunoController(AvgContext context)
+        private readonly IAlunoRepository _AlunoRepository;
+        public AlunoController(AvgContext context, IAlunoRepository _AlunoRepo)
         {
-            _context=context;
+            _context = context;
+            _AlunoRepository = _AlunoRepo;
         }
 
         ////Get api/Aluno
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Aluno>>> Index()
+        public async Task<ActionResult> Get() 
         {
-            return (await _context.Alunos.ToListAsync());
-        }
+            //return (await _context.Alunos.OrderBy(x => x.Id).Include(x => x.).Include(x => x.Professors).ToListAsync());
+            //return (await _context.Alunos.OrderBy(x => x.Id).Where(aluno => aluno.Disciplina.Any(ad => ad.ProfessorId == ProfessorId).ToListAsync();
 
+             try
+            {
+                var result = await _AlunoRepository.GetAllAlunosAsync(true);
+                 return Ok(result);
+                }
+              catch (Exception ex)
+                {
+                 return BadRequest($"Erro: {ex.Message}");
+            }
+
+        }
 
         //Get api/Professor/1
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Aluno>> GetAluno(int id)
+        [HttpGet("{AlunoId}")]
+        public async Task<IActionResult> GetByAlunoId(int AlunoId)
         {
-            return (await _context.Alunos.FindAsync(id));
+
+            try
+            {
+                var result = await _AlunoRepository.GetAlunoAsyncById(AlunoId, true);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Aluno>> PostAluno(Aluno aluno)
+        [HttpGet("ObterPorPalavraChave/{palavraChave}")]
+        public ActionResult ObterPorPalavraChave(string palavraChave)
         {
-            _context.Alunos.Add(aluno);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetAluno", new Aluno { Id = aluno.Id }, aluno);
+
+            try
+            {
+                var result =  _AlunoRepository.ObterPorPalavraChave(palavraChave);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+
         }
 
-        [HttpPut]
-        public async Task<ActionResult> PutAluno(int id, Aluno aluno)
+        [HttpGet("ByDisciplina/{disciplinaId}")]
+        public async Task<IActionResult> GetByDisciplinaId(int disciplinaId)
         {
             try
             {
-                if (id != aluno.Id) return BadRequest();
-
-                _context.Entry(aluno).State = EntityState.Modified;
-
-                await _context.SaveChangesAsync();
-                return NoContent();
+                var result = await _AlunoRepository.GetAlunosAsyncByDisciplinaId(disciplinaId, false);
+                return Ok(result);
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-                if (!ExitsAluno(id)) return NotFound(); else throw;
+                return BadRequest($"Erro: {ex.Message}");
             }
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteAluno(int id)
+        [HttpPost]
+        public async Task<ActionResult> PostAluno(Aluno model)
         {
-            var aluno = await _context.Alunos.FindAsync(id);
-            if (aluno == null) return NotFound();
-
-            _context.Remove(aluno);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                _context.Add(model);
+               await _context.SaveChangesAsync();
+               return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
         }
 
-        private bool ExitsAluno(int id)
+        [HttpPut("{alunoId}")]
+        public async Task<ActionResult> PutAluno(int alunoId, Aluno model)
         {
-            return _context.Alunos.Any(p => p.Id == id);
+
+            try
+            {
+                IQueryable<Aluno> query = _context.Alunos;
+
+
+                query = query.Include(a => a.AlunosDisciplinas)
+                                .ThenInclude(ad => ad.Disciplina)
+                                .ThenInclude(d => d.Professor);
+
+                query = query.AsNoTracking()
+                                .OrderBy(aluno => aluno.Id)
+                                .Where(aluno => aluno.Id == alunoId);
+
+                var result = query.FirstOrDefaultAsync();
+
+
+                if (model == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Update(model);
+                await _context.SaveChangesAsync();
+                  return Ok("Deletado") ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+
         }
+
+        [HttpDelete("{alunoId}")]
+        public async Task<ActionResult> DeleteAluno(int alunoId)
+        {
+            try
+            {
+                var aluno = await _AlunoRepository.GetAlunoAsyncById(alunoId, false);
+                if (aluno == null) return NotFound();
+
+                _AlunoRepository.DeleteAluno(alunoId);
+
+                if (await _AlunoRepository.SaveChangesAsync());
+                {
+                    return Ok("Deletado");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Erro: {ex.Message}");
+            }
+
+        }
+
+
 
 
     }

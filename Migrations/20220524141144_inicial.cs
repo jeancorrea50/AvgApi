@@ -8,6 +8,24 @@ namespace AvgApi.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Aluno",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sobrenome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DataAgora = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Cpf = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aluno", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Categoria",
                 columns: table => new
                 {
@@ -35,6 +53,50 @@ namespace AvgApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PessoaFisica", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PessoaJuridica",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Cnpj = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RazaoSocial = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NomeFantasia = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cep = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Complemento = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Numero = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Logradouro = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bairro = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Municipio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Uf = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Pais = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DataInclusao = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DataAlteracao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InscricaoMunicipal = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InscMunicipalIsenta = table.Column<bool>(type: "bit", nullable: false),
+                    InscricaoEstadual = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InscEstadualIsenta = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PessoaJuridica", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Professor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Professor", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,9 +149,9 @@ namespace AvgApi.Migrations
                     Modelo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Estoque = table.Column<int>(type: "int", nullable: false),
-                    Preco = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InfoProduto = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ValorUniProduto = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    ValorUniProduto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     QuantidadeProduto = table.Column<int>(type: "int", nullable: false),
                     MemoriaProduto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PolegadaProduto = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -104,6 +166,26 @@ namespace AvgApi.Migrations
                         name: "FK_Produto_Categoria_CategoriaModelId",
                         column: x => x.CategoriaModelId,
                         principalTable: "Categoria",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Disciplina",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfessorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Disciplina", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Disciplina_Professor_ProfessorId",
+                        column: x => x.ProfessorId,
+                        principalTable: "Professor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -200,6 +282,32 @@ namespace AvgApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AlunoDisciplina",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AlunoId = table.Column<int>(type: "int", nullable: false),
+                    DisciplinaId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AlunoDisciplina", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AlunoDisciplina_Aluno_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Aluno",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AlunoDisciplina_Disciplina_DisciplinaId",
+                        column: x => x.DisciplinaId,
+                        principalTable: "Disciplina",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ResumoReceitaDespesa",
                 columns: table => new
                 {
@@ -244,36 +352,25 @@ namespace AvgApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Categoria",
-                columns: new[] { "Id", "DescCategoria" },
-                values: new object[,]
-                {
-                    { 1, "Celular" },
-                    { 2, "Televisão" },
-                    { 3, "Notebook" },
-                    { 14, "Pc Gamer" }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AlunoDisciplina_AlunoId",
+                table: "AlunoDisciplina",
+                column: "AlunoId");
 
-            migrationBuilder.InsertData(
-                table: "Produto",
-                columns: new[] { "Id", "CategoriaModelId", "Cor", "DscProduto", "Estoque", "InfoProduto", "Marca", "MemoriaProduto", "Modelo", "PolegadaProduto", "Preco", "QuantidadeProduto", "TamanhoProduto", "ValorUniProduto", "VoltagemProduto" },
-                values: new object[] { 1, 1, "Vermelho", null, 7, null, "Apple", null, "Iphone 8", null, 2600.00m, 0, null, 0m, null });
-
-            migrationBuilder.InsertData(
-                table: "Produto",
-                columns: new[] { "Id", "CategoriaModelId", "Cor", "DscProduto", "Estoque", "InfoProduto", "Marca", "MemoriaProduto", "Modelo", "PolegadaProduto", "Preco", "QuantidadeProduto", "TamanhoProduto", "ValorUniProduto", "VoltagemProduto" },
-                values: new object[] { 2, 1, "Branco", null, 4, null, "Apple", null, "Iphone X", null, 3100.00m, 0, null, 0m, null });
-
-            migrationBuilder.InsertData(
-                table: "Produto",
-                columns: new[] { "Id", "CategoriaModelId", "Cor", "DscProduto", "Estoque", "InfoProduto", "Marca", "MemoriaProduto", "Modelo", "PolegadaProduto", "Preco", "QuantidadeProduto", "TamanhoProduto", "ValorUniProduto", "VoltagemProduto" },
-                values: new object[] { 3, 1, "Preto", null, 1, null, "Apple", null, "Iphone 11", null, 4800.00m, 0, null, 0m, null });
+            migrationBuilder.CreateIndex(
+                name: "IX_AlunoDisciplina_DisciplinaId",
+                table: "AlunoDisciplina",
+                column: "DisciplinaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Despesa_TipoDespesaId",
                 table: "Despesa",
                 column: "TipoDespesaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Disciplina_ProfessorId",
+                table: "Disciplina",
+                column: "ProfessorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Investimento_TipoInvestimentoId",
@@ -309,13 +406,25 @@ namespace AvgApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AlunoDisciplina");
+
+            migrationBuilder.DropTable(
                 name: "PessoaFisica");
+
+            migrationBuilder.DropTable(
+                name: "PessoaJuridica");
 
             migrationBuilder.DropTable(
                 name: "Produto");
 
             migrationBuilder.DropTable(
                 name: "ResumoReceitaDespesa");
+
+            migrationBuilder.DropTable(
+                name: "Aluno");
+
+            migrationBuilder.DropTable(
+                name: "Disciplina");
 
             migrationBuilder.DropTable(
                 name: "Categoria");
@@ -328,6 +437,9 @@ namespace AvgApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Receita");
+
+            migrationBuilder.DropTable(
+                name: "Professor");
 
             migrationBuilder.DropTable(
                 name: "TipoDespesa");

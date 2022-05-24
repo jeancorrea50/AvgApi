@@ -8,13 +8,17 @@ namespace AvgApi.Models
     [Table("Professor")]
     public class Professor
     {
+        public Professor() { }
+        public Professor(int id, string nome)
+        {
+            this.Id = id;
+            this.Nome = nome;
+        }
+
         [Key]
         public int Id { get; set; }
         public string Nome { get; set; }
-        public string Telefone { get; set; }
-        public string Especialidade { get; set; }
-        public DateTime? Data_Cadastro { get; } = DateTime.Now;
-        public DateTime? Data_Ultima_Alteracao { get; } = DateTime.Now;
+        public IEnumerable<Disciplina> Disciplinas { get; set; }
 
     }
     

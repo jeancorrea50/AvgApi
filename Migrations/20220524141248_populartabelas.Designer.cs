@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AvgApi.Migrations
 {
     [DbContext(typeof(AvgContext))]
-    [Migration("20220512193404_inicial")]
-    partial class inicial
+    [Migration("20220524141248_populartabelas")]
+    partial class populartabelas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,266 @@ namespace AvgApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AvgApi.Models.Aluno", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Cpf")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DataAgora")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sobrenome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Aluno");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cpf = "06348303179",
+                            DataAgora = new DateTime(2022, 5, 24, 11, 12, 47, 499, DateTimeKind.Local).AddTicks(8323),
+                            DataNascimento = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(278),
+                            Nome = "Pedro Henrique",
+                            Sobrenome = "José"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cpf = "454321321",
+                            DataAgora = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1791),
+                            DataNascimento = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1796),
+                            Nome = "João Pereira",
+                            Sobrenome = "Antonia"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Cpf = "4542123113",
+                            DataAgora = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1799),
+                            DataNascimento = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1800),
+                            Nome = "Raimunda",
+                            Sobrenome = "Rafael"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Cpf = "789456231",
+                            DataAgora = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1801),
+                            DataNascimento = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1803),
+                            Nome = "Ronaldo",
+                            Sobrenome = "Pinto"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Cpf = "4562313",
+                            DataAgora = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1804),
+                            DataNascimento = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1805),
+                            Nome = "Cleuso",
+                            Sobrenome = "Reinaldo"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Cpf = "06348303179",
+                            DataAgora = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1807),
+                            DataNascimento = new DateTime(2022, 5, 24, 11, 12, 47, 501, DateTimeKind.Local).AddTicks(1808),
+                            Nome = "Paulo",
+                            Sobrenome = "José"
+                        });
+                });
+
+            modelBuilder.Entity("AvgApi.Models.AlunoDisciplina", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AlunoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DisciplinaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("DisciplinaId");
+
+                    b.ToTable("AlunoDisciplina");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 30,
+                            AlunoId = 1,
+                            DisciplinaId = 1
+                        },
+                        new
+                        {
+                            Id = 31,
+                            AlunoId = 1,
+                            DisciplinaId = 2
+                        },
+                        new
+                        {
+                            Id = 32,
+                            AlunoId = 1,
+                            DisciplinaId = 3
+                        },
+                        new
+                        {
+                            Id = 33,
+                            AlunoId = 1,
+                            DisciplinaId = 4
+                        },
+                        new
+                        {
+                            Id = 34,
+                            AlunoId = 1,
+                            DisciplinaId = 5
+                        },
+                        new
+                        {
+                            Id = 35,
+                            AlunoId = 2,
+                            DisciplinaId = 4
+                        },
+                        new
+                        {
+                            Id = 36,
+                            AlunoId = 2,
+                            DisciplinaId = 3
+                        },
+                        new
+                        {
+                            Id = 37,
+                            AlunoId = 2,
+                            DisciplinaId = 2
+                        },
+                        new
+                        {
+                            Id = 38,
+                            AlunoId = 7,
+                            DisciplinaId = 4
+                        },
+                        new
+                        {
+                            Id = 39,
+                            AlunoId = 7,
+                            DisciplinaId = 3
+                        },
+                        new
+                        {
+                            Id = 40,
+                            AlunoId = 7,
+                            DisciplinaId = 2
+                        },
+                        new
+                        {
+                            Id = 41,
+                            AlunoId = 7,
+                            DisciplinaId = 1
+                        },
+                        new
+                        {
+                            Id = 42,
+                            AlunoId = 4,
+                            DisciplinaId = 1
+                        },
+                        new
+                        {
+                            Id = 43,
+                            AlunoId = 4,
+                            DisciplinaId = 4
+                        },
+                        new
+                        {
+                            Id = 44,
+                            AlunoId = 4,
+                            DisciplinaId = 3
+                        },
+                        new
+                        {
+                            Id = 45,
+                            AlunoId = 5,
+                            DisciplinaId = 5
+                        },
+                        new
+                        {
+                            Id = 46,
+                            AlunoId = 5,
+                            DisciplinaId = 4
+                        },
+                        new
+                        {
+                            Id = 47,
+                            AlunoId = 5,
+                            DisciplinaId = 3
+                        },
+                        new
+                        {
+                            Id = 48,
+                            AlunoId = 5,
+                            DisciplinaId = 2
+                        },
+                        new
+                        {
+                            Id = 49,
+                            AlunoId = 5,
+                            DisciplinaId = 1
+                        },
+                        new
+                        {
+                            Id = 50,
+                            AlunoId = 7,
+                            DisciplinaId = 1
+                        },
+                        new
+                        {
+                            Id = 51,
+                            AlunoId = 7,
+                            DisciplinaId = 2
+                        },
+                        new
+                        {
+                            Id = 52,
+                            AlunoId = 7,
+                            DisciplinaId = 3
+                        },
+                        new
+                        {
+                            Id = 53,
+                            AlunoId = 7,
+                            DisciplinaId = 4
+                        },
+                        new
+                        {
+                            Id = 54,
+                            AlunoId = 7,
+                            DisciplinaId = 5
+                        });
+                });
 
             modelBuilder.Entity("AvgApi.Models.CategoriaModel", b =>
                 {
@@ -34,28 +294,6 @@ namespace AvgApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categoria");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DescCategoria = "Celular"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DescCategoria = "Televisão"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DescCategoria = "Notebook"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            DescCategoria = "Pc Gamer"
-                        });
                 });
 
             modelBuilder.Entity("AvgApi.Models.Despesa", b =>
@@ -100,6 +338,58 @@ namespace AvgApi.Migrations
                     b.HasIndex("TipoDespesaId");
 
                     b.ToTable("Despesa");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.Disciplina", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfessorId");
+
+                    b.ToTable("Disciplina");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nome = "Matemática",
+                            ProfessorId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nome = "Física",
+                            ProfessorId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nome = "Português",
+                            ProfessorId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nome = "Inglês",
+                            ProfessorId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nome = "Programação",
+                            ProfessorId = 5
+                        });
                 });
 
             modelBuilder.Entity("AvgApi.Models.Investimento", b =>
@@ -182,6 +472,75 @@ namespace AvgApi.Migrations
                     b.ToTable("PessoaFisica");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.PessoaJuridica", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Bairro")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cep")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cnpj")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Complemento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DataAlteracao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DataInclusao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("InscEstadualIsenta")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("InscMunicipalIsenta")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("InscricaoEstadual")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InscricaoMunicipal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Logradouro")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Municipio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomeFantasia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Numero")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pais")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RazaoSocial")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Uf")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PessoaJuridica");
+                });
+
             modelBuilder.Entity("AvgApi.Models.ProdutoModel", b =>
                 {
                     b.Property<int>("Id")
@@ -217,8 +576,7 @@ namespace AvgApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Preco")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("QuantidadeProduto")
                         .HasColumnType("int");
@@ -227,8 +585,7 @@ namespace AvgApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ValorUniProduto")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("VoltagemProduto")
                         .HasColumnType("nvarchar(max)");
@@ -238,43 +595,47 @@ namespace AvgApi.Migrations
                     b.HasIndex("CategoriaModelId");
 
                     b.ToTable("Produto");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.Professor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Professor");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CategoriaModelId = 1,
-                            Cor = "Vermelho",
-                            Estoque = 7,
-                            Marca = "Apple",
-                            Modelo = "Iphone 8",
-                            Preco = 2600.00m,
-                            QuantidadeProduto = 0,
-                            ValorUniProduto = 0m
+                            Nome = "Lauro"
                         },
                         new
                         {
                             Id = 2,
-                            CategoriaModelId = 1,
-                            Cor = "Branco",
-                            Estoque = 4,
-                            Marca = "Apple",
-                            Modelo = "Iphone X",
-                            Preco = 3100.00m,
-                            QuantidadeProduto = 0,
-                            ValorUniProduto = 0m
+                            Nome = "Roberto"
                         },
                         new
                         {
                             Id = 3,
-                            CategoriaModelId = 1,
-                            Cor = "Preto",
-                            Estoque = 1,
-                            Marca = "Apple",
-                            Modelo = "Iphone 11",
-                            Preco = 4800.00m,
-                            QuantidadeProduto = 0,
-                            ValorUniProduto = 0m
+                            Nome = "Ronaldo"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nome = "Rodrigo"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Nome = "Alexandre"
                         });
                 });
 
@@ -442,6 +803,25 @@ namespace AvgApi.Migrations
                     b.ToTable("TipoReceita");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.AlunoDisciplina", b =>
+                {
+                    b.HasOne("AvgApi.Models.Aluno", "Aluno")
+                        .WithMany("AlunosDisciplinas")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AvgApi.Models.Disciplina", "Disciplina")
+                        .WithMany("AlunosDisciplinas")
+                        .HasForeignKey("DisciplinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Disciplina");
+                });
+
             modelBuilder.Entity("AvgApi.Models.Despesa", b =>
                 {
                     b.HasOne("AvgApi.Models.TipoDespesa", "TipoDespesa")
@@ -451,6 +831,17 @@ namespace AvgApi.Migrations
                         .IsRequired();
 
                     b.Navigation("TipoDespesa");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.Disciplina", b =>
+                {
+                    b.HasOne("AvgApi.Models.Professor", "Professor")
+                        .WithMany("Disciplinas")
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Professor");
                 });
 
             modelBuilder.Entity("AvgApi.Models.Investimento", b =>
@@ -511,6 +902,11 @@ namespace AvgApi.Migrations
                     b.Navigation("Receita");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.Aluno", b =>
+                {
+                    b.Navigation("AlunosDisciplinas");
+                });
+
             modelBuilder.Entity("AvgApi.Models.CategoriaModel", b =>
                 {
                     b.Navigation("ProdutoModels");
@@ -521,9 +917,19 @@ namespace AvgApi.Migrations
                     b.Navigation("ResumoReceitaDespesas");
                 });
 
+            modelBuilder.Entity("AvgApi.Models.Disciplina", b =>
+                {
+                    b.Navigation("AlunosDisciplinas");
+                });
+
             modelBuilder.Entity("AvgApi.Models.Investimento", b =>
                 {
                     b.Navigation("ResumoReceitaDespesas");
+                });
+
+            modelBuilder.Entity("AvgApi.Models.Professor", b =>
+                {
+                    b.Navigation("Disciplinas");
                 });
 
             modelBuilder.Entity("AvgApi.Models.Receita", b =>
